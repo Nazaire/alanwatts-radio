@@ -46,6 +46,8 @@ function preload() {
 }
 
 async function setup() {
+  noCanvas();
+
   /* if not ready, wait for it */
   if (!audioDirectory.ready) await new Promise((resolve, reject) => {
     audioDirectory.onready = () => {
