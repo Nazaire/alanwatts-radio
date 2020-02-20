@@ -20,7 +20,6 @@ const PIXEL_RATIO = (function () {
   var settingsAreOpen = false;
 
   document.body.addEventListener('click', () => {
-    console.log('clicked', SoundFile);
     if (SoundFile && SoundFile.isLoaded()) {
       if (SoundFile.isPlaying()) {
         console.log("Pausing");
