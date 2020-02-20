@@ -68,7 +68,8 @@ export default class ParticleGenerator extends SingletonTickable {
       // Play the audio
       if (!window.SoundFile.isPlaying()) {
         var is_safari = navigator.userAgent.indexOf("Safari") > -1;
-        if (is_safari) {
+        var is_chrome = navigator.userAgent.indexOf("Chrome") > -1;
+        if (is_safari && !is_chrome) {
           console.log("Not autoplaying because safari...");
         } else {
           window.SoundFile.play();
