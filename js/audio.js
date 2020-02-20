@@ -1,4 +1,5 @@
 let song, analyzer;
+var currentFile = null;
 
 window.SoundFile = null;
 window.AudioAnalyzer = null;
@@ -59,15 +60,32 @@ async function setup() {
   song = loadSound(audioDirectory.getRandomKey(), async () => {
     // The particle generator will play the sound when it's ready
   });
+  currentFile = song.url;
+
   // When the sound ends, fetch another
-  song.onended(() => {
-    song.setPath(audioDirectory.getRandomKey(), async () => {
+  song.onended(function () {
+    if (currentFile !== this.url) return;
+
+    if (song.isPaused()) return;
+
+    window.SoundFile.disconnect();
+    delete window.SoundFile;
+    delete window.AudioAnalyzer;
+
+    song = loadSound(audioDirectory.getRandomKey(), async () => {
       // Play as soon as its ready
       song.play();
     });
+    currentFile = song.url;
+
+    // create a new Amplitude analyzer
+    analyzer = new p5.Amplitude(0.2);
+    analyzer.setInput(song);
+    analyzer.toggleNormalize(true);
+
+    window.AudioAnalyzer = analyzer;
+    window.SoundFile = song;
   });
-
-
 
   // create a new Amplitude analyzer
   analyzer = new p5.Amplitude(0.2);

@@ -66,7 +66,14 @@ export default class ParticleGenerator extends SingletonTickable {
       controller.addObject(newParticle, controller.stage);
     } else if (songIsReady) {
       // Play the audio
-      if (!window.SoundFile.isPlaying()) window.SoundFile.play();
+      if (!window.SoundFile.isPlaying()) {
+        var is_safari = navigator.userAgent.indexOf("Safari") > -1;
+        if (is_safari) {
+          console.log("Not autoplaying because safari...");
+        } else {
+          window.SoundFile.play();
+        }
+      }
       // Go to next state
       this.state = 'NORMAL';
     }
